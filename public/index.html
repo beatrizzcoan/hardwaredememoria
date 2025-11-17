@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full bg-gray-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Memória Virtual</title>
+    <!-- Carrega o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carrega a fonte Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Carrega nosso CSS customizado -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body class="h-full p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+      <header class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">
+          Simulador de Hardware de Paginação
+        </h1>
+      </header>
+
+      <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- PAINEL ESQUERDO: CONTROLES E PROCESSOS -->
+        <section class="lg:col-span-1 space-y-6">
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Controles da Simulação</h2>
+            <fieldset class="space-y-2">
+              <legend class="sr-only">Parte da Simulação</legend>
+              <div class="flex items-center">
+                <input
+                  id="part1"
+                  name="sim-part"
+                  type="radio"
+                  value="1"
+                  onchange="window.app.switchPart(this.value)"
+                  checked
+                  class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
+                <label
+                  for="part1"
+                  class="ml-3 block text-sm font-medium text-gray-700"
+                  >Parte 1: Tradução de Endereços</label
+                >
+              </div>
+              <div class="flex items-center">
+                <input
+                  id="part2"
+                  name="sim-part"
+                  type="radio"
+                  value="2"
+                  onchange="window.app.switchPart(this.value)"
+                  class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
+                <label
+                  for="part2"
+                  class="ml-3 block text-sm font-medium text-gray-700"
+                  >Parte 2: Paginação Sob Demanda</label
+                >
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Processos</h2>
+            <div class="space-y-3">
+              <!-- Processo 1 -->
+              <div
+                id="p-1"
+                class="process-card active"
+                onclick="window.app.selectProcess(1)"
+              >
+                <h3 class="font-bold text-lg text-blue-800">Processo 1 (P1)</h3>
+                <span class="text-sm text-gray-600"
+                  >PTBR Offset: <span class="font-mono">0x0000</span></span
+                >
+                <div id="p-1-vars" class="vars-grid">
+                  <button
+                    onclick="window.app.accessVariable(1, 0)"
+                    class="btn bg-blue-600 hover:bg-blue-700"
+                  >
+                    Acessar Pág 0
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(1, 1)"
+                    class="btn bg-blue-600 hover:bg-blue-700"
+                  >
+                    Acessar Pág 1
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(1, 2)"
+                    class="btn bg-blue-600 hover:bg-blue-700"
+                  >
+                    Acessar Pág 2
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(1, 3)"
+                    class="btn bg-blue-600 hover:bg-blue-700"
+                  >
+                    Acessar Pág 3
+                  </button>
+                </div>
+              </div>
+              <!-- Processo 2 -->
+              <div
+                id="p-2"
+                class="process-card"
+                onclick="window.app.selectProcess(2)"
+              >
+                <h3 class="font-bold text-lg text-gray-800">Processo 2 (P2)</h3>
+                <span class="text-sm text-gray-600"
+                  >PTBR Offset: <span class="font-mono">0x0100</span></span
+                >
+                <div id="p-2-vars" class="vars-grid hidden">
+                  <button
+                    onclick="window.app.accessVariable(2, 0)"
+                    class="btn bg-green-600 hover:bg-green-700"
+                  >
+                    Acessar Pág 0
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(2, 1)"
+                    class="btn bg-green-600 hover:bg-green-700"
+                  >
+                    Acessar Pág 1
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(2, 2)"
+                    class="btn bg-green-600 hover:bg-green-700"
+                  >
+                    Acessar Pág 2
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(2, 3)"
+                    class="btn bg-green-600 hover:bg-green-700"
+                  >
+                    Acessar Pág 3
+                  </button>
+                </div>
+              </div>
+              <!-- Processo 3 -->
+              <div
+                id="p-3"
+                class="process-card"
+                onclick="window.app.selectProcess(3)"
+              >
+                <h3 class="font-bold text-lg text-gray-800">Processo 3 (P3)</h3>
+                <span class="text-sm text-gray-600"
+                  >PTBR Offset: <span class="font-mono">0x0200</span></span
+                >
+                <div id="p-3-vars" class="vars-grid hidden">
+                  <button
+                    onclick="window.app.accessVariable(3, 0)"
+                    class="btn bg-red-600 hover:bg-red-700"
+                  >
+                    Acessar Pág 0
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(3, 1)"
+                    class="btn bg-red-600 hover:bg-red-700"
+                  >
+                    Acessar Pág 1
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(3, 2)"
+                    class="btn bg-red-600 hover:bg-red-700"
+                  >
+                    Acessar Pág 2
+                  </button>
+                  <button
+                    onclick="window.app.accessVariable(3, 3)"
+                    class="btn bg-red-600 hover:bg-red-700"
+                  >
+                    Acessar Pág 3
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAINEL CENTRAL: MMU LOG -->
+        <section class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4">MMU - Log de Tradução</h2>
+          <div
+            id="mmu-log"
+            class="h-96 bg-gray-900 text-white font-mono p-4 rounded-lg overflow-y-auto text-sm whitespace-pre-wrap"
+          >
+            Selecione uma parte e acesse uma variável de processo.
+          </div>
+        </section>
+
+        <!-- PAINEL DIREITO: RAM E SWAP -->
+        <section class="lg:col-span-1 space-y-6">
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Memória Principal (RAM)</h2>
+            <div id="ram-container" class="grid grid-cols-2 gap-2">
+              <!-- Frames da RAM serão gerados pelo JS -->
+            </div>
+          </div>
+          <div id="swap-panel" class="bg-white p-6 rounded-lg shadow-md hidden">
+            <h2 class="text-xl font-semibold mb-4">Área de Swap (Disco)</h2>
+            <div id="swap-container" class="grid grid-cols-2 gap-2">
+              <!-- Blocos de Swap serão gerados pelo JS -->
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- MODAL DE PAGE FAULT -->
+    <div
+      id="modal-container"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full">
+        <h2 class="text-xl font-bold text-red-700">Page Fault!</h2>
+        <p id="modal-prompt" class="my-4 text-gray-700">
+          Selecione um quadro livre para alocar a página.
+        </p>
+        <div
+          id="modal-frames"
+          class="max-h-60 overflow-y-auto grid grid-cols-4 gap-2 mb-4"
+        >
+          <!-- Botões dos quadros serão gerados pelo JS -->
+        </div>
+        <button
+          onclick="window.app.cancelModal()"
+          class="w-full bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Carrega os scripts do simulador -->
+    <!-- Usamos type="module" para poder usar 'import' e 'export' -->
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+/* Define a fonte padrão */
+body {
+    font-family: "Inter", sans-serif;
+}
+
+/* Cores personalizadas para os processos e sistema */
+.p-color-free {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+.p-color-system {
+    background-color: #e2e8f0; /* cinza */
+    border-color: #94a3b8;
+    color: #334155;
+}
+.p-color-1 {
+    background-color: #dbeafe; /* azul */
+    border-color: #93c5fd;
+    color: #1e40af;
+}
+.p-color-2 {
+    background-color: #dcfce7; /* verde */
+    border-color: #86efac;
+    color: #166534;
+}
+.p-color-3 {
+    background-color: #fee2e2; /* vermelho */
+    border-color: #fca5a5;
+    color: #991b1b;
+}
+
+/* Animação de "piscar" */
+@keyframes blink-animation {
+    50% {
+        background-color: #facc15; /* amarelo */
+        transform: scale(1.05);
+    }
+}
+.frame-blink {
+    animation: blink-animation 0.5s ease-in-out;
+}
+
+/* Estilos para os painéis de processo */
+.process-card {
+    @apply border p-4 rounded-lg cursor-pointer;
+}
+.process-card.active {
+    @apply border-blue-400 bg-blue-100;
+}
+.process-card:not(.active) {
+    @apply border-gray-300 bg-gray-50;
+}
+
+.vars-grid {
+    @apply mt-3 grid grid-cols-2 gap-2;
+}
+
+.btn {
+    @apply w-full text-white p-2 rounded-md text-sm transition-colors;
+}
+
+.frame-item {
+    @apply border rounded-md p-2 text-sm font-medium;
+}
